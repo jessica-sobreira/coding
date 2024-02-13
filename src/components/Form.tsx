@@ -1,35 +1,70 @@
+import { Box, Button, Typography, TextField, Link } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
-import { Box, Button } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../config/hooks';
 
-export default function Form() {
+export default function LoginForm() {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const fazerLogin = (e: any) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const senha = e.target.senha.value;
+
+        if (!email || !senha) {
+            alert('Por favor, preencha todos os campos');
+            return;
+        }
+
+        dispatch({ type: 'login', payload: { email, senha } });
+        navigate('/bem-vindo');
+    };
 
     return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100vh',
-            justifyContent: 'center',
-            alignItems: 'center',
-
-          }}
-    >
-
-
-        <form style={{display: 'flex', flexDirection: 'column', gap: '10px', width: '55%'}}>
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '10px'}}>
-                <LoginIcon />
-                <h1>Sign in</h1>
-            </div>
-            <TextField id="email" label="E-mail" variant="outlined" style={{marginBottom: '10px'}} />
-            <TextField id="senha" label="Senha" variant="outlined" />    
-            <Button variant="contained" type="submit">Entrar</Button>
-            <br />
-            <p style={{fontSize: '14px', textAlign: 'center'}}>Não tem uma conta? <a href="/criar-usuario">Cadastre-se!</a></p>
-            <br />
-            <p style={{fontSize: '12px', textAlign: 'center', color: 'gray'}}>Copyright © Jessica Sobreira 2024</p>        
-        </form>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100vh',
+            }}
+        >
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
+                <LoginIcon sx={{ fontSize: '40px', marginBottom: '10px' }} />
+                <Typography variant="h5">Sign in</Typography>
+            </Box>
+            <form onSubmit={fazerLogin} style={{ width: '300px' }}>
+                <TextField
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="E-mail"
+                    variant="outlined"
+                    margin="normal"
+                    required
+                />
+                <TextField
+                    fullWidth
+                    id="senha"
+                    name="senha"
+                    label="Senha"
+                    type="password"
+                    variant="outlined"
+                    margin="normal"
+                    required
+                />
+                <Button variant="contained" type="submit" fullWidth sx={{ marginTop: '10px' }}>
+                    Entrar
+                </Button>
+            </form>
+            <Typography variant="body1" sx={{ marginTop: '20px' }}>
+                Não tem uma conta? <Link href="/criar-usuario">Cadastre-se!</Link>
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ marginTop: '10px' }}>
+                &copy; Jessica Sobreira 2024
+            </Typography>
         </Box>
-
-    )
+    );
 }
