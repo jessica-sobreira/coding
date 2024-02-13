@@ -7,7 +7,8 @@ export default function ImgLogin() {
         display: 'flex',
         justifyContent: 'flex-start',
         height: '100vh',
-        paddingLeft: '0vw', 
+        paddingLeft: '0vw',
+        width: '100vw', 
       }}
     >
       <img
